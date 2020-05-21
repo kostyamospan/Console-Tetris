@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace ConsoleApp67
+namespace Tetris
 {
 
     class KeyboardInputProvider : IInputEventProvider<KeyboarEventArgs>

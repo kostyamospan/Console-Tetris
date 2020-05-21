@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConsoleApp67
+namespace Tetris
 {
     class KeyboardLayoutEvents
     {
