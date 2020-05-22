@@ -1,11 +1,8 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace Tetris
+﻿namespace Tetris
 {
     class Program
     {
-
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             /*var handler = new KeyboardLayoutEvents();
 
@@ -16,11 +13,7 @@ namespace Tetris
 
             do
             {
-
             } while (true);*/
-
-
-
         }
     }
 }

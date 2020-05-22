@@ -43,10 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Figure.cs" />
+    <Compile Include="FigureBuilder.cs" />
+    <Compile Include="FigureType.cs" />
     <Compile Include="IInputEventProvider.cs" />
     <Compile Include="KeyboardInputProvider.cs" />
     <Compile Include="KeyboardLayoutEvents.cs" />
     <Compile Include="KeyboarEventArgs.cs" />
+    <Compile Include="Pixel.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

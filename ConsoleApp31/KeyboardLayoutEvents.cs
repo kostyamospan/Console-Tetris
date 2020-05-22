@@ -2,15 +2,20 @@
 
 namespace Tetris
 {
-    class KeyboardLayoutEvents
+    internal class KeyboardLayoutEvents
     {
         private KeyboardInputProvider _inputPprovider;
 
         public event EventHandler OnLeftArrowPressed;
+
         public event EventHandler OnRightArrowPressed;
+
         public event EventHandler OnUpArrowPressed;
+
         public event EventHandler OnDownArrowPressed;
+
         public event EventHandler OnEscapePressed;
+
         public event EventHandler OnEnterPressed;
 
         public KeyboardLayoutEvents()

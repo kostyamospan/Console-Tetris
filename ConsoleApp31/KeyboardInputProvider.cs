@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-
-    class KeyboardInputProvider : IInputEventProvider<KeyboarEventArgs>
+    internal class KeyboardInputProvider : IInputEventProvider<KeyboarEventArgs>
     {
         public event EventHandler<KeyboarEventArgs> EventHandler;
 
         public Task Task { get; private set; }
+
         public KeyboardInputProvider()
         {
             Task = Task.Factory.StartNew(() =>
@@ -22,7 +22,5 @@ namespace Tetris
         }
 
         protected virtual void OnButtonPressed(KeyboarEventArgs e) => EventHandler?.Invoke(this, e);
-
     }
-
 }

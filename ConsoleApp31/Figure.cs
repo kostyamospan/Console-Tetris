@@ -1,6 +1,8 @@
-﻿namespace Tetris
+﻿using System.Text;
+
+namespace Tetris
 {
-    class Figure
+    public class Figure
     {
         public FigureType Type { get; private set; }
         public Position Position { get; set; }
@@ -10,83 +12,25 @@
         public Figure(FigureType type)
         {
             Type = type;
-            InitFigureBody(type);
+            pixels = FigureBuilder.InitFigureBody(type);
         }
 
+        public void RotateClockWise() => pixels = FigureBuilder.ClockWiseRotation(pixels);
+        public void RotateCouterClockWise() => pixels = FigureBuilder.CounterClockWiseRotation(pixels);
 
-        private void InitFigureBody(FigureType type)
+        public override string ToString()
         {
-            Pixel[,] figureBody = null;
+            StringBuilder strBlder = new StringBuilder("");
 
-            switch (type)
+            for (int i = 0; i < pixels.GetLength(0); i++)
             {
-                case FigureType.I_block:
-                    {
-                        figureBody = new Pixel[4, 1]
-                        {
-                                { new Pixel() },
-                                { new Pixel() },
-                                { new Pixel() },
-                                { new Pixel() },
-                        };
-                    }
-                    break;
-                case FigureType.J_block:
-                    {
-                        figureBody = new Pixel[3, 2]
-                        {
-                                { null, new Pixel() },
-                                { null, new Pixel() },
-                                { new Pixel(),new Pixel() },
-                       };
-                    }
-                    break;
-                case FigureType.L_block:
-                    {
-                        figureBody = new Pixel[3, 2]
-                        {
-                                { new Pixel(), null },
-                                { new Pixel(), null },
-                                { new Pixel(), new Pixel() },
-                       };
-                    }
-                    break;
-                case FigureType.O_block:
-                    figureBody = new Pixel[2, 2]
-                       {
-                                { new Pixel(), new Pixel() },
-                                { new Pixel(), new Pixel() },
-
-                       };
-                    break;
-                case FigureType.S_block:
-                    figureBody = new Pixel[2, 3]
-                      {
-                                { null, new Pixel(), new Pixel() },
-                                { new Pixel(), new Pixel(), null },
-
-                      };
-                    break;
-                case FigureType.T_block:
-                    figureBody = new Pixel[2, 3]
-                      {
-                                { new Pixel(), new Pixel(), new Pixel() },
-                                { null, new Pixel(), null },
-
-                      };
-                    break;
-                case FigureType.Z_block:
-                    figureBody = new Pixel[2, 3]
-                      {
-                                { new Pixel(), new Pixel(), null },
-                                { null, new Pixel(), new Pixel() },
-
-                      };
-                    break;
+                for (int j = 0; j <pixels.GetLength(1) ; j++)
+                {
+                    strBlder.Append(pixels[i,j]?.ToString() ?? " ");
+                }
+                strBlder.Append("\n");
             }
-
-            pixels = figureBody;
+            return strBlder.ToString();
         }
     }
-
 }
