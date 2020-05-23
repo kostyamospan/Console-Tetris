@@ -1,19 +1,20 @@
-﻿namespace Tetris
+﻿using System;
+
+namespace Tetris
 {
     class Program
     {
         private static void Main(string[] args)
         {
-            /*var handler = new KeyboardLayoutEvents();
 
-            handler.OnLeftArrowPressed += (sender, arg) => Console.WriteLine("Left button pressed");
-            handler.OnRightArrowPressed += (sender, arg) => Console.WriteLine("Right button pressed");
-            handler.OnUpArrowPressed += (sender, arg) => Console.WriteLine("Up button pressed");
-            handler.OnDownArrowPressed += (sender, arg) => Console.WriteLine("Down button pressed");
+            ConsoleContainer container = new ConsoleContainer(10,9);
 
-            do
-            {
-            } while (true);*/
+            ConsoleContainer.ConsoleRenderer renderer = new ConsoleContainer.ConsoleRenderer();
+
+            renderer.RenderContainer(container);
+
+
+            Console.ReadKey();
         }
     }
 }

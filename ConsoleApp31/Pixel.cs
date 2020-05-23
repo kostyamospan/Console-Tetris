@@ -2,7 +2,7 @@
 
 namespace Tetris
 {
-    class Pixel
+    public class Pixel
     {
         public const char Symbol = '#';
         public ConsoleColor Color { get; private set; }
@@ -14,6 +14,13 @@ namespace Tetris
         public Pixel()
         {
             Color = Console.ForegroundColor;
+        }
+
+        public void WriteToConsole()
+        {
+            Console.ForegroundColor = Color;
+            Console.Write(Symbol);
+            Console.ResetColor();
         }
 
         public override string ToString()
