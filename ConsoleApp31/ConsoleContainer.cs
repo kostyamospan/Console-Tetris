@@ -10,45 +10,62 @@ namespace Tetris
 {
     class ConsoleContainer
     {
-
         public Frame RenderedFrame { get; private set; }
         public int Width { get; private set; }
         public int Height { get; private set; }
-        public Position Position { get => _position; private set => _position = value; }
+        public Position Position { get; private set; }
 
-        private Position _position;
+        private ConsoleRenderer _renderer;
+        //private ConsoleWindowRefreshEventProvider _eventProvider;
 
         public ConsoleContainer(int width, int heigth, Position position = null)
         {
+
             Position = position ?? new Position(0, 0);
 
             Width = width;
             Height = heigth;
 
             RenderedFrame = GenerateEmptyFrame();
+
+            _renderer = new ConsoleRenderer();
+            //_eventProvider = ConsoleWindowRefreshEventProvider.GetInstance();
+           
+
         }
 
         public void SetRenderFrame(Frame frame)
         {
             RenderedFrame = frame;
         }
+        
+        /*public void StartRender()
+        {
+            _eventProvider.RefreshEvent += _eventProvider_RefreshEvent;
+        }*/
 
+        public void RenderFrame()
+        {
+            _renderer.RenderContainer(this);
+        }
         public Frame GenerateEmptyFrame()
         {
-            Pixel[,] pixels =  new Pixel[Height,Width];
+            Pixel[,] pixels = new Pixel[Height, Width];
 
             for (int i = 0; i < Height; i++)
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    pixels[i, j] = new Pixel(ConsoleColor.Green);
+                    pixels[i, j] = new Pixel(ConsoleColor.Green, '\u0023');
                 }
             }
 
             return new Frame(pixels);
         }
 
-        public class ConsoleRenderer
+
+        //private void _eventProvider_RefreshEvent(object sender, EventArgs e) => _renderer.RenderContainer(this);
+        private class ConsoleRenderer
         {
             private Frame lastFrame;
 
@@ -75,41 +92,10 @@ namespace Tetris
                     }
                 }
 
-                lastFrame = container.RenderedFrame;
+                lastFrame = container.RenderedFrame.Clone() as Frame;
             }
         }
 
-        private class ConsoleWindowRefreshEventProvider
-        {
-            private static ConsoleWindowRefreshEventProvider _instance;
-
-            public event EventHandler RefreshEvent;
-            public Task UsedTask { get; private set; }
-
-            public const int FRAMES_PER_SECOND = 10;
-
-            private ConsoleWindowRefreshEventProvider()
-            {
-                Task.Factory.StartNew(() =>
-                {
-                    do
-                    {
-                        Thread.Sleep(1000 / FRAMES_PER_SECOND);
-                        OnRefresh(this, new EventArgs());
-                    } while (true);
-                });
-            }
-
-            private void OnRefresh(object sender, EventArgs args) => RefreshEvent?.Invoke(sender, args);
-
-
-            public static ConsoleWindowRefreshEventProvider GetInstance()
-            {
-                if (_instance == null)
-                    _instance = new ConsoleWindowRefreshEventProvider();
-
-                return _instance;
-            }
-        }
+       
     }
 }
