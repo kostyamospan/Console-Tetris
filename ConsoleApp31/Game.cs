@@ -5,48 +5,33 @@ using System.Threading.Tasks;
 
 namespace Tetris
 {
-    class Game
+    abstract class Game
     {   
-        public int Score { get; private set; }
 
-        private ConsoleContainer _gameContainer;
-        private WindowRefreshEventProvider _refreshEventProvider;
-        private Queue<Figure> _figureQueue;
-        private const int QUEUE_CAPACITY = 3;
+        protected ConsoleContainer _gameContainer;
+        protected WindowRefreshEventProvider _refreshEventProvider;
 
-        public Game()
+
+        public Game(ConsoleContainer container)
         {
             _refreshEventProvider = WindowRefreshEventProvider.GetInstance();
-            _gameContainer = new ConsoleContainer(10,20);
-            _figureQueue = new Queue<Figure>(QUEUE_CAPACITY);
-        }
-        private void RefillQueue()
-        {
-            int comp = QUEUE_CAPACITY - _figureQueue.Count;
-            for (int i = 0; i < comp; i++)
-            {
-                _figureQueue.Enqueue(Figure.RandomFigure());
-            }
+            _gameContainer = container;     
         }
 
-        private void OnRefresh(object sender, EventArgs e)
-        {
-            GameLogic();
-            _gameContainer.RenderedFrame.RandomizeFrame();
-            _gameContainer.RenderFrame();
-        }
-        public void GameLogic() { }
-        public void StartGame()
+
+        protected abstract void OnRefresh(object sender, EventArgs e);
+            
+        public virtual void StartGame()
         {
             _refreshEventProvider.RefreshEvent += OnRefresh;
         }
-        public void EndGame()
+        public virtual void EndGame()
         {
             _refreshEventProvider.RefreshEvent -= OnRefresh;
         }
 
        // public void 
-        private class WindowRefreshEventProvider
+        protected class WindowRefreshEventProvider
         {
             private static WindowRefreshEventProvider _instance;
 

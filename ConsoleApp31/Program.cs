@@ -35,7 +35,7 @@ namespace Tetris
             {
                 Console.WriteLine(Figure.RandomFigure().ToString());
             }*/
-            Game game = new Game();
+            Game game = new TetrisGame();
 
             game.StartGame();
 
