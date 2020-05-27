@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tetris
 {
@@ -35,11 +37,12 @@ namespace Tetris
             {
                 Console.WriteLine(Figure.RandomFigure().ToString());
             }*/
+
             Game game = new TetrisGame();
-
             game.StartGame();
+            game.RefreshTask.Wait();
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

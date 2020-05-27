@@ -56,7 +56,7 @@ namespace Tetris
             {
                 for (int j = 0; j < Width; j++)
                 {
-                    pixels[i, j] = new Pixel(ConsoleColor.Green, '\u0023');
+                    pixels[i, j] = new Pixel(ConsoleColor.Green, PixelTypes.Empty);
                 }
             }
 

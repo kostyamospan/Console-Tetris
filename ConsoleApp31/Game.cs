@@ -10,11 +10,11 @@ namespace Tetris
 
         protected ConsoleContainer _gameContainer;
         protected WindowRefreshEventProvider _refreshEventProvider;
-
-
+        public readonly Task RefreshTask;
         public Game(ConsoleContainer container)
         {
             _refreshEventProvider = WindowRefreshEventProvider.GetInstance();
+            RefreshTask = _refreshEventProvider.UsedTask;
             _gameContainer = container;     
         }
 
@@ -42,7 +42,7 @@ namespace Tetris
 
             private WindowRefreshEventProvider()
             {
-                Task.Factory.StartNew(() =>
+                UsedTask = Task.Factory.StartNew(() =>
                 {
                     do
                     {

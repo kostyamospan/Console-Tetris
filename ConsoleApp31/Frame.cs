@@ -32,12 +32,21 @@ namespace Tetris
             {
                 for (int j = 0; j < pix.GetLength(1) && left + j < Pixels.GetLength(1) ; j++)
                 {
-                    Console.WriteLine(Pixels.GetLength(0));
                     Pixels[i+top,j+left] = pix[i,j] ?? Pixels[i + top, j + left];
                 }
             }
         }
 
+        public void DeletePixels(int left, int top, Pixel[,] pix)
+        {
+            for (int i = 0; i < pix.GetLength(0) && top + i < Pixels.GetLength(0); i++)
+            {
+                for (int j = 0; j < pix.GetLength(1) && left + j < Pixels.GetLength(1); j++)
+                {
+                    Pixels[i + top, j + left] = Pixels[i + top, j + left].Equals(pix[i, j]) || pix[i, j] == null ? new Pixel(PixelTypes.Empty) : pix[i, j];
+                }
+            }
+        }
         public object Clone()
         {
             var res = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(this));

@@ -9,18 +9,30 @@ namespace Tetris
         public FigureType Type { get; private set; }
         public Position Position { get; set; }
 
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public Pixel[,] Pixels { get => pixels; private set => pixels = value; }
+
         private Pixel[,] pixels;
         private static Random _random = new Random();
-        public Figure(FigureType type)
+        public Figure(FigureType type, Position pos = null)
         {
+            Position = pos ?? new Position(0, 0);
             Type = type;
             pixels = FigureBuilder.InitFigureBody(type, PixelTypes.Sharp);
+            Width = pixels.GetLength(1);
+            Height = pixels.GetLength(0);
         }
-      
+
         public void RotateClockWise() => pixels = FigureBuilder.ClockWiseRotation(pixels);
         public void RotateCouterClockWise() => pixels = FigureBuilder.CounterClockWiseRotation(pixels);
-
         public static Figure RandomFigure() => new Figure((FigureType)_random.Next(0, Enum.GetNames(typeof(FigureType)).Length));
+        public static Figure CentredFigue(int width)
+        {
+            var f = RandomFigure();
+            f.Position.X = width / 2 - f.Width;
+            return f;
+        }
 
         public override string ToString()
         {
@@ -28,9 +40,9 @@ namespace Tetris
 
             for (int i = 0; i < pixels.GetLength(0); i++)
             {
-                for (int j = 0; j <pixels.GetLength(1) ; j++)
+                for (int j = 0; j < pixels.GetLength(1); j++)
                 {
-                    strBlder.Append(pixels[i,j]?.ToString() ?? " ");
+                    strBlder.Append(pixels[i, j]?.ToString() ?? " ");
                 }
                 strBlder.Append("\n");
             }
@@ -56,12 +68,9 @@ namespace Tetris
                 {
                     case FigureType.I_block:
                         {
-                            figureBody = new Pixel[4, 1]
+                            figureBody = new Pixel[1, 4]
                             {
-                                { new Pixel(pixelType) },
-                                { new Pixel(pixelType) },
-                                { new Pixel(pixelType) },
-                                { new Pixel(pixelType) },
+                                { new Pixel(pixelType), new Pixel(pixelType), new Pixel(pixelType), new Pixel(pixelType) }
                             };
                         }
                         break;
