@@ -15,10 +15,11 @@ namespace Tetris
         private Figure _currentFigure;
         private KeyboardLayoutEvents _layoutEventsProvider;
 
-        private int _currentFrameSkip = 3;
+        private int _currentFrameSkip = 9;
         private int _countFrameSkip = 1;
 
         private const int QUEUE_CAPACITY = 3;
+        private ConsoleKey _lastPressedKey;
 
         public TetrisGame() : base(new ConsoleContainer(10, 20))
         {
@@ -30,44 +31,50 @@ namespace Tetris
 
         public void GameLogic()
         {
-            if (_countFrameSkip < _currentFrameSkip)
-                _countFrameSkip++;
+            // _countFrameSkip = 1;
+            /*if (_gameContainer.RenderedFrame == null)
+            {
+                _gameContainer.SetRenderFrame();
+            }*/
+            Frame lastFrame = _gameContainer.RenderedFrame;
+
+            if (_currentFigure == null)
+            {
+                _currentFigure = _figureQueue.Dequeue();
+                SubscribeFigureBehavior();
+                RefillQueue();
+            }
             else
             {
+                DeleteLastFigure();
+            }
+
+            bool isBottomReached = false;
+
+            if (_countFrameSkip >= _currentFrameSkip)
+            {
+                isBottomReached = FigureBehavior.MoveDown(_currentFigure, _gameContainer);
                 _countFrameSkip = 1;
-                /*if (_gameContainer.RenderedFrame == null)
-                {
-                    _gameContainer.SetRenderFrame();
-                }*/
-                Frame lastFrame = _gameContainer.RenderedFrame;
+            }
+            else
+                _countFrameSkip++;
 
-                if (_currentFigure == null)
-                {
-                    _currentFigure = _figureQueue.Dequeue();
-                    SubscribeFigureBehavior();
-                    RefillQueue();
-                }
-                else
-                {
-                    lastFrame.DeletePixels(_currentFigure.Position.X, _currentFigure.Position.Y, _currentFigure.Pixels);
-                }
-                bool isBottomReached = FigureBehavior.MoveDown(_currentFigure, _gameContainer);
+            lastFrame.CombineWith(_currentFigure.Position.X, _currentFigure.Position.Y, _currentFigure.Pixels);
 
+            _gameContainer.SetRenderFrame(lastFrame);
+            _gameContainer.RenderFrame();
 
-                lastFrame.CombineWith(_currentFigure.Position.X, _currentFigure.Position.Y, _currentFigure.Pixels);
-
-                _gameContainer.SetRenderFrame(lastFrame);
-                _gameContainer.RenderFrame();
-
-                if (isBottomReached)
-                {
-                    UnSubscribeFigureBehavior();
-                    _currentFigure = null;
-                }
-                ;
+            if (isBottomReached)
+            {
+                UnSubscribeFigureBehavior();
+                _currentFigure = null;
             }
         }
 
+        private void DeleteLastFigure()
+        {
+            _gameContainer?.RenderedFrame?.DeletePixels(_currentFigure.Position.X, _currentFigure.Position.Y, _currentFigure.Pixels);
+        }
         protected override void OnRefresh(object sender, EventArgs e)
         {
             GameLogic();

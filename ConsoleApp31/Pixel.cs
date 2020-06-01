@@ -6,8 +6,12 @@ namespace Tetris
     public class Pixel
     {
         public readonly char Symbol;
-        public ConsoleColor Color { get; private set; }
+        public ConsoleColor Color { get; private set; } = ConsoleColor.Green;
 
+        public Pixel()
+        {
+
+        }
         public Pixel(char symbol = (char)PixelTypes.Empty)
         {
             Symbol = symbol;

@@ -38,7 +38,7 @@ namespace Tetris
             public event EventHandler RefreshEvent;
             public Task UsedTask { get; private set; }
 
-            public const int FRAMES_PER_SECOND = 10;
+            public const int FRAMES_PER_SECOND = 30;
 
             private WindowRefreshEventProvider()
             {

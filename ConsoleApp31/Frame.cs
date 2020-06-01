@@ -6,6 +6,10 @@ namespace Tetris
     {
         public Pixel[,] Pixels { get; private set; }
 
+        public Frame()
+        {
+
+        }
         public Frame(Pixel[,] pixels)
         {
             Pixels = pixels;
@@ -49,7 +53,8 @@ namespace Tetris
         }
         public object Clone()
         {
-            var res = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(this));
+            var temp = JsonConvert.DeserializeObject<Pixel[,]>(JsonConvert.SerializeObject(Pixels));
+            var res = new Frame(temp);
             return res;
         }
     }

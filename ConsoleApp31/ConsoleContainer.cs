@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Tetris
 {
@@ -80,19 +74,15 @@ namespace Tetris
                 {
                     for (int j = 0; j < container.Width; j++)
                     {
-                        if (lastFrame != null)
-                        {
-                            if (mas[i, j].Equals(lastFrame.Pixels[i, j]))
-                                continue;
-
-                        }
+                        if (lastFrame != null && mas[i, j].Equals(lastFrame.Pixels[i, j]))
+                            continue;
 
                         Console.SetCursorPosition(j + containerPosX, i + containerPosY);
                         mas[i, j].WriteToConsole();
                     }
                 }
 
-                lastFrame = container.RenderedFrame.Clone() as Frame;
+                lastFrame = (Frame)container.RenderedFrame.Clone();  
             }
         }
 
